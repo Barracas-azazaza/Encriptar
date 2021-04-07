@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">RegistroUsuarios</string>
+    <string name="tv_titulo">Registro de usuarios</string>
+    <string name="etDocumento">Documento</string>
+    <string name="etUsuario">Usuario</string>
+    <string name="etNombres">Nombres</string>
+    <string name="etApellidos">Apellidos</string>
+    <string name="etContra">Contraseña</string>
+    <string name="btRegistrar">Registrar</string>
+    <string name="btBuscar">Buscar</string>
+    <string name="btListarResgistros">Listar</string>
+    <string name="tvPath"></string>
+</resources>
