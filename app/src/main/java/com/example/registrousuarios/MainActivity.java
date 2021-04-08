@@ -2,6 +2,7 @@ package com.example.registrousuarios;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -129,26 +130,39 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<Usuario> adapter = new ArrayAdapter<Usuario>(this, android.R.layout.simple_list_item_1, usuarioList);
         listaUsuarios.setAdapter(adapter);
     }
-    public void ListarUsuario2(View view){ //Orientado a objetos
+    public void ListarUsuario(View view){ //Orientado a objetos
         UsuarioDAO usuarioDao = new UsuarioDAO(this, findViewById(R.id.lvLista));
         ArrayList<Usuario> usuarioList = usuarioDao.getUsuarioList();
         ArrayAdapter<Usuario> adapter = new ArrayAdapter<Usuario>(this, android.R.layout.simple_list_item_1, usuarioList);
         listaUsuarios.setAdapter(adapter);
     }
-    public void consultarUsuario(View view){ //No orientado a objetos
-        ArrayList<String> lista = new ArrayList<>();
+    //BUSCAR
+    public void Buscar(View view){ //No orientado a objetos
+        if(etDocumento.getText().toString().isEmpty()){
+            Toast.makeText(this, "El documento esta vacio", Toast.LENGTH_LONG).show();
+            return;
+        }
+        int documento = Integer.parseInt(etDocumento.getText().toString());
+        Usuario usuario = new Usuario();
         gestionBD = new GestionBD(this);
         SQLiteDatabase db = gestionBD.getWritableDatabase();
-        Cursor fila = db.rawQuery("select * from usuarios", null);
-        if(fila.moveToFirst()){
+        Cursor cursor = db.rawQuery("select * from usuarios where USU_DOCUMENTO="+documento, null);
+        if(cursor.moveToFirst()){
             do{
-                lista.add(fila.getString(0)+" | "+fila.getString(1));
-            }while(fila.moveToNext());
+                usuario.documento = cursor.getInt(0);
+                usuario.nombres = cursor.getString(1);
+                usuario.apellidos = cursor.getString(2);
+                usuario.usuario = cursor.getString(3);
+                usuario.contra = cursor.getString(4);
+            }while(cursor.moveToNext());
             db.close();
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lista);
-            listaUsuarios.setAdapter(adapter);
+            etNombres.setText(usuario.nombres);
+            etApellidos.setText(usuario.apellidos);
+            etUsuario.setText(usuario.usuario);
         }
+        this.ListarUsuario();
     }
+    // ENCRIPTACIÓN
     public String encriptar(String password) throws Exception{
         SecretKeySpec secretKey = generateKey(password);
         Cipher cipher = Cipher.getInstance("AES");
@@ -164,4 +178,32 @@ public class MainActivity extends AppCompatActivity {
         SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
         return secretKeySpec;
     }
+
+
+
+    public void Actualizar(View view) {
+        if (validar_campos()) {
+            UsuarioDAO usuarioDAO = new UsuarioDAO(this, view);
+            Usuario usuario = new Usuario();
+            usuario.nombres = this.nombres;
+
+            usuario.apellidos = this.apellidos;
+            try {
+                contra = encriptar(contra);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return;
+            }
+            usuario.contra = this.contra;
+
+            usuario.documento = this.documento;
+            usuario.usuario = this.usuario;
+            usuarioDAO.update(usuario, this);
+
+
+            this.ListarUsuario();
+            borrarCampos();
+        }
+    }
+
 }

@@ -7,6 +7,7 @@
     <string name="etApellidos">Apellidos</string>
     <string name="etContra">Contraseña</string>
     <string name="btRegistrar">Registrar</string>
+    <string name="btActualizar">Actualizar</string>
     <string name="btBuscar">Buscar</string>
     <string name="btListarResgistros">Listar</string>
     <string name="tvPath"></string>

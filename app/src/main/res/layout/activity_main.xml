@@ -64,7 +64,7 @@
 
         <TextView
             android:id="@+id/tvPath"
-            android:layout_width="wrap_content"
+            android:layout_width="68dp"
             android:layout_height="wrap_content"
             android:text="TextView" />
 
@@ -80,30 +80,32 @@
                 android:text="@string/btRegistrar" />
 
             <Button
-                android:id="@+id/btBuscar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="consultarUsuario"
-                android:text="@string/btBuscar" />
-
-            <Button
                 android:id="@+id/btListar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="ListarUsuario2"
+                android:onClick="ListarUsuario"
                 android:text="@string/btListarResgistros" />
 
             <Button
-                android:id="@+id/btLimpiar"
+                android:id="@+id/btActualizar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Limpiar" />
+                android:onClick="Actualizar"
+                android:text="@string/btActualizar" />
+
+            <Button
+                android:id="@+id/btBuscar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="Buscar"
+                android:text="@string/btBuscar" />
+
         </TableRow>
 
         <ListView
             android:id="@+id/lvLista"
             android:layout_width="399dp"
-            android:layout_height="382dp" >
+            android:layout_height="382dp">
 
         </ListView>
 

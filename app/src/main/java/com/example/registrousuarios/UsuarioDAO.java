@@ -10,6 +10,8 @@ import android.view.View;
 import com.google.android.material.snackbar.Snackbar;
 
 import android.database.SQLException;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 public class UsuarioDAO {
@@ -65,5 +67,30 @@ public class UsuarioDAO {
         cursor.close();
         db.close();
         return usuariosArrayList;
+    }
+
+    public void update(Usuario usuario, Context context){
+
+        try {
+            SQLiteDatabase db = gestionBD.getWritableDatabase();
+            if (db != null){
+                ContentValues values = new ContentValues();
+                values.put("USU_NOMBRES", usuario.nombres);
+                values.put("USU_APELLIDOS",usuario.apellidos);
+                values.put("USU_USUARIO",usuario.usuario);
+                values.put("USU_CONTRA",usuario.contra);
+                db.update("usuarios",values,"USU_DOCUMENTO=?", new String[]{""+usuario.documento});
+                Toast.makeText(context,"Se ha actualizado un usuario ", Toast.LENGTH_LONG).show();
+                db.close();
+            }else{
+                Toast.makeText(context,"No Se ha actualizado un usuario ", Toast.LENGTH_LONG).show();
+            }
+        }catch (SQLException sqlException){
+            Log.i("ERROR", ""+sqlException);
+            Toast.makeText(context,"Error ", Toast.LENGTH_LONG).show();
+
+
+        }
+
     }
 }
